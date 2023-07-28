@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mendalami Vue js</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous" />
+    <script src="https://kit.fontawesome.com/355acdeb36.js" crossorigin="anonymous"></script>  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+  <body>
+    <div class="container-md my-5 mx-auto" id="app">
+
+      <nav class="navbar container  fixed-top">
+        <div class="navbar-text ms-auto d-flex">
+            <button class="btn btn-outline-success" @click="style.sliderStatus = !style.sliderStatus">
+                <i class="fas fa-dollar-sign"></i>
+            </button>
+            <div class=" dropdown ms-2" v-if="cart.length > 0">
+              <button type="button" class="btn btn-success btn-sm dropdown-toggle" id="dropdownCart"  data-bs-toggle="dropdown"  aria-expanded="false">
+           
+                <span class="badge rounded-pill text-bg-success">{{ cartQty }}</span>
+                <i class="fas fa-shopping-cart xe-2"></i>
+                {{ cartTotal | currencyFormat }}
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownCart">
+                <div v-for="(item, index) in cart" :key="index">
+                  <div class="dropdown-item text-nowrap text-right">
+                    <span class="badge rounded-pill text-bg-warning align-text-top me-1">
+                      {{ item.qty }}
+                    </span>
+                    {{ item.product.name }}
+                    <b>{{ item.product.price * item.qty | currencyFormat }}</b>
+                    <a href="#" class="badge text-bg-danger" 
+                    @click.stop="deleteItem(index)">-</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </nav>
+
+      <h1>My Shop</h1>
+      <transition name="custom" enter-active-class="animated fadeInDown" leave-active-class="animated slideOutRight">
+        <div v-if="style.sliderStatus">
+            <div class="align-items-center" :class="sliderState">
+                <label for="" :class="style.label">Max</label>
+                <input type="number" class="form-control mx-2" :style="{'width': style.inputWidth + 'px', 'text-align': 'center'}" v-model="maximum" />
+                <input type="range" class="form-range" min="0" max="200" v-model="maximum" />
+            </div>
+        </div>
+      </transition>
+
+      <transition-group name="fade" tag="div" @beforeEnter="before" @enter="enter" @leave="leave">
+          <div class="row d-none mb-3 align-items-center" v-for="(item, index) in products" :key="item.id" v-if="item.price <= Number(maximum)" :data-index="index">
+
+            <div class="col-1">
+              <button class="btn btn-info" v-on:click="addItem(item)">+</button>
+            </div>
+              <div class="col-sm-4">
+                <img class="img-fluid d-block" v-bind:src="item.image" :alt="item.name" />
+              </div>
+              <div class="col">
+                <h2 class="text-info">{{ item.name }}</h2>
+                <p class="mb-0">{{ item.description }}</p>
+                <div class="h5 pt-2"> 
+                  <price></price>
+                </div>
+              </div>
+              
+            </div>
+      </transition-group>
+
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
