@@ -22,7 +22,7 @@
            
                 <span class="badge rounded-pill text-bg-success">{{ cartQty }}</span>
                 <i class="fas fa-shopping-cart xe-2"></i>
-                {{ cartTotal | currencyFormat }}
+                <price :value="Number(cartTotal)"></price>
               </button>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownCart">
                 <div v-for="(item, index) in cart" :key="index">
@@ -52,25 +52,7 @@
         </div>
       </transition>
 
-      <transition-group name="fade" tag="div" @beforeEnter="before" @enter="enter" @leave="leave">
-          <div class="row d-none mb-3 align-items-center" v-for="(item, index) in products" :key="item.id" v-if="item.price <= Number(maximum)" :data-index="index">
-
-            <div class="col-1">
-              <button class="btn btn-info" v-on:click="addItem(item)">+</button>
-            </div>
-              <div class="col-sm-4">
-                <img class="img-fluid d-block" v-bind:src="item.image" :alt="item.name" />
-              </div>
-              <div class="col">
-                <h2 class="text-info">{{ item.name }}</h2>
-                <p class="mb-0">{{ item.description }}</p>
-                <div class="h5 pt-2"> 
-                  <price></price>
-                </div>
-              </div>
-              
-            </div>
-      </transition-group>
+      <product-list :product="products" :maximum="maximum"></product-list>
 
       </div>
     </div>
