@@ -17,7 +17,7 @@ Vue.component("price", {
 });
 
 Vue.component("product-list", {
-  props: ["products", "masimum"],
+  props: ["products", "maximum"],
   methods: {
     before: function (el) {
       el.className = "d-none";
@@ -40,7 +40,7 @@ Vue.component("product-list", {
           <div class="row d-none mb-3 align-items-center" v-for="(item, index) in products" :key="item.id" v-if="item.price <= Number(maximum)" :data-index="index">
 
             <div class="col-1">
-              <button class="btn btn-info" v-on:click="addItem(item)">+</button>
+              <button class="btn btn-info" @click="$emit('add', item)">+</button>
             </div>
               <div class="col-sm-4">
                 <img class="img-fluid d-block" v-bind:src="item.image" :alt="item.name" />

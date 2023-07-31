@@ -52,7 +52,7 @@
         </div>
       </transition>
 
-      <product-list :product="products" :maximum="maximum"></product-list>
+      <product-list :products="products" :maximum="maximum" @add="addItem"></product-list>
 
       </div>
     </div>
